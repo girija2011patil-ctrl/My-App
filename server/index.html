@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Smart Waste Reporter</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.png">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+height:100vh;
+background:linear-gradient(135deg,#1b5e20,#66bb6a);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* Main Container */
+
+.container{
+
+width:520px;
+background:white;
+padding:40px;
+border-radius:14px;
+box-shadow:0 12px 30px rgba(0,0,0,0.25);
+text-align:center;
+
+}
+
+/* Title */
+
+h1{
+color:#2e7d32;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#666;
+margin-bottom:30px;
+font-size:15px;
+}
+
+/* Grid */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+/* Buttons */
+
+button{
+
+padding:16px;
+border:none;
+border-radius:10px;
+font-size:15px;
+color:white;
+cursor:pointer;
+transition:0.3s;
+
+}
+
+/* Button Colors */
+
+.register{
+background:#43a047;
+}
+
+.login{
+background:#1e88e5;
+}
+
+.report{
+background:#e53935;
+}
+
+.map{
+background:#fb8c00;
+}
+
+.dashboard{
+background:#8e24aa;
+grid-column:1 / span 2;
+}
+
+/* Hover */
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 6px 12px rgba(0,0,0,0.3);
+}
+
+/* Footer */
+
+footer{
+margin-top:25px;
+font-size:13px;
+color:#777;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Smart Waste Reporter</h1>
+
+<p class="subtitle">
+Report illegal garbage dumping and help keep the city clean
+</p>
+
+<div class="grid">
+
+<a href="components/auth/register.html">
+<button class="register">Register</button>
+</a>
+
+<a href="components/auth/login.html">
+<button class="login">Login</button>
+</a>
+
+<a href="components/reports/upload.html">
+<button class="report">Report Garbage</button>
+</a>
+
+<a href="components/map/map.html">
+<button class="map">View Garbage Map</button>
+</a>
+
+<a href="components/dashboard/dashboard.html">
+<button class="dashboard">Municipal Dashboard</button>
+</a>
+
+</div>
+
+<footer>
+Smart Waste Management System © 2026
+</footer>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Garbage Reports Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+#map{
+height:600px;
+width:100%;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Illegal Garbage Dump Detection Map</h2>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([20.5937,78.9629],5);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+async function loadReports(){
+
+const response = await fetch("http://localhost:5000/reports");
+
+const reports = await response.json();
+
+let heatPoints = [];
+
+reports.forEach(r=>{
+
+if(!r.latitude || !r.longitude) return;
+
+/* ---------- HEATMAP POINT ---------- */
+
+heatPoints.push([r.latitude,r.longitude,0.5]);
+
+/* ---------- COLORED MARKERS ---------- */
+
+let color="green";
+
+if(r.riskLevel==="High") color="red";
+
+if(r.riskLevel==="Medium") color="orange";
+
+const marker = L.circleMarker(
+
+[r.latitude,r.longitude],
+
+{
+radius:8,
+color:color,
+fillColor:color,
+fillOpacity:0.8
+}
+
+).addTo(map);
+
+marker.bindPopup(
+
+"<b>Reported By:</b> "+(r.userId?.name || "Unknown")+
+"<br><b>Location:</b> "+r.location+
+"<br><b>Description:</b> "+r.description+
+"<br><b>Risk:</b> "+r.riskLevel
+
+);
+
+});
+
+/* ---------- HEATMAP ---------- */
+
+L.heatLayer(heatPoints,{
+radius:25,
+blur:15
+}).addTo(map);
+
+}
+
+loadReports();
+
+</script>
+
+var map=L.map('map').setView([20.5937,78.9629],5);
+
+</body>
+</html>

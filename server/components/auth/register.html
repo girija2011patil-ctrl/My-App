@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Register</title>
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>User Registration</h2>
+
+<form id="registerForm">
+
+<input type="text" name="name" placeholder="Enter Name" required>
+
+<input type="email" name="email" placeholder="Enter Email" required>
+
+<select name="role">
+<option value="citizen">Citizen</option>
+<option value="worker">Municipal Worker</option>
+</select>
+
+<button type="submit">Register</button>
+
+</form>
+
+<p>Already registered? <a href="login.html">Login</a></p>
+
+</div>
+
+<script>
+
+document.getElementById("registerForm")
+.addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const formData=new FormData(this);
+
+const data=Object.fromEntries(formData);
+
+const response=await fetch("http://localhost:5000/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+});
+
+const result=await response.json();
+
+alert(result.message);
+
+});
+
+</script>
+
+</body>
+</html>

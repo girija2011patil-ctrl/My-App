@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Upload Garbage Report</title>
+
+<link rel="stylesheet" href="../../styles.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Upload Garbage Report</h2>
+
+<p id="locationDisplay">Detecting location...</p>
+
+<form id="reportForm">
+
+<input type="file" name="image" required>
+
+<input type="text" name="location" placeholder="Location">
+
+<input type="hidden" name="latitude" id="lat">
+<input type="hidden" name="longitude" id="lng">
+
+<input type="text" name="description" placeholder="Description">
+
+<select name="riskLevel">
+<option value="Low">Low Risk</option>
+<option value="Medium">Medium Risk</option>
+<option value="High">High Risk</option>
+</select>
+
+<button type="submit">Submit Report</button>
+
+</form>
+
+</div>
+
+<script>
+
+function getLocation(){
+
+if(!navigator.geolocation){
+
+document.getElementById("locationDisplay").innerHTML =
+"Geolocation not supported";
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+function(position){
+
+const lat = position.coords.latitude;
+const lng = position.coords.longitude;
+
+document.getElementById("lat").value = lat;
+document.getElementById("lng").value = lng;
+
+document.getElementById("locationDisplay").innerHTML =
+"Location detected";
+
+},
+
+function(){
+
+document.getElementById("locationDisplay").innerHTML =
+"Location permission denied";
+
+}
+
+);
+
+}
+
+getLocation();
+
+document.getElementById("reportForm")
+.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const formData = new FormData(this);
+
+const userId = localStorage.getItem("userId");
+
+if(userId){
+formData.append("userId", userId);
+}
+
+try{
+
+const response = await fetch("http://localhost:5000/report",{
+
+method:"POST",
+body:formData
+
+});
+
+const result = await response.json();
+
+alert("Report submitted successfully!");
+
+this.reset();
+
+}catch(error){
+
+alert("Error submitting report");
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
